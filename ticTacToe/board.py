@@ -38,8 +38,8 @@ class Board:
                   case 'b':
                         col = 1
                   case 'c':
-                        col = 3
-            row = cell[1] - 1 # row index
+                        col = 2
+            row = int(cell[1]) - 1 # row index
 
             return (row, col)
 
@@ -49,9 +49,14 @@ class Board:
             cellTupl = self.convertCell(cell)
 
             # update that index in the board to the sign
-            self.board[cellTupl[0]][cellTupl[1]] = sign 
+            self.board[cellTupl[0]][cellTupl[1]] = sign
+            # print("done?", done)
                               
       def isempty(self, cell):
+            # if the cell is invalid return false
+            if(self.invalidIndex(cell)):
+                  return False
+
             # you need to convert A1, B1, …, C3 cells into index values from 1 to 9
             cellTupple = self.convertCell(cell)
             # return True if the cell is empty (not marked with X or O)
@@ -59,23 +64,29 @@ class Board:
                   return True
             return False
 
+      def invalidIndex (self, cell):
+            # check if the alphabet part of the cell is not A, B, or C
+            # or if the number part of the cell is greater than 3
+            if(ord(cell[0].upper()) - 65 > 2 or int(cell[1]) > 3):
+                  return True
+            
+            return False
       def isdone(self):
             done = False
             # check all game terminating conditions, if one of them is present, assign the var done to True
-            
             # checking rows
             for row in self.board:
-                  if(row[0] == row[1] == row[2] != " "):
+                  if(row[0] == row[1] == row[2] and row[0] != " "):
                         done = True # set done to be true
-                        self.winner == row[0] # update the winning sign
+                        self.winner = row[0] # update the winning sign
                         break # break out of the rows loop
             
             # checking columns
             if not done:
                   for col in range(len(self.board)):
-                        if(self.board[0][col] == self.board[1][col] == self.board[2][col] != " "):
+                        if(self.board[0][col] == self.board[1][col] == self.board[2][col] and self.board[0][col]  != " "):
                               done = True # set done to be true
-                              self.winner == self.board[0][col] # update the winning sign
+                              self.winner = self.board[0][col] # update the winning sign
                               break # break out of the cols loop
 
             # checking diagonals
@@ -83,15 +94,15 @@ class Board:
             # diagonal = [[(0, 0), (1, 1), (2, 2)], [(0, 2), (1,1), (2, 0)]] Just for reference
             if(not done):
                   # if the signs in the diagonals are the same and are not empty
-                  if(self.board[0][0] == self.board[1][1] == self.board[2][2] != " "):
+                  if(self.board[0][0] == self.board[1][1] == self.board[2][2] and self.board[0][0] != " "):
                         done = True
                         self.winner = self.board[0][0]
-                  elif(self.board[0][2] == self.board[1][1] == self.board[2][0] != " "):
+                  elif(self.board[0][2] == self.board[1][1] == self.board[2][0] and self.board[0][2] != " "):
                         done = True
                         self.winner = self.board[0][0]
 
             # depending on conditions assign the instance var winner to O or X
-            return self.winner
+            return done
 
       # draw the board
       def show(self):
