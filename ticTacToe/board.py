@@ -1,3 +1,11 @@
+# author: Harshita Bhardwaj
+# date: Oct 19, 2022
+# file: board.py is a file that creates and sets up functionality for the tic tac toe board
+# input: depends on the method being called
+# output: depends on the method being called
+# the file by itself does not ask for any input nor does it provide any output
+# this class must be used with the tictac.py file to play a tic tac toe game
+
 class Board:
       def __init__(self):
             # board is a list of cells that are represented 
@@ -17,20 +25,40 @@ class Board:
             return len(self.board)* len(self.board[0])
       def get_winner(self):
             # return the winner's sign O or X (an instance winner)     
-            print("")
+            return self.winner
+
+      # change the cell str to an index for the board 2d arr
+      def convertCell(self, cell):
+            alpha = cell[0].lower()
+
+            # getting the column index
+            match alpha:
+                  case 'a':
+                        col = 0
+                  case 'b':
+                        col = 1
+                  case 'c':
+                        col = 3
+            row = cell[1] - 1 # row index
+
+            return (row, col)
+
+      # mark the cell on the board with the sign X or O
       def set(self, cell, sign):
-            # mark the cell on the board with the sign X or O
-            # you need to convert A1, B1, …, C3 cells into index values from 1 to 9
-            # you can use a tuple ("A1", "B1",...) to obtain indexes 
-            # this implementation is up to you 
-            print("")
+            # convert A1, B1, …, C3 cells into index values
+            cellTupl = self.convertCell(cell)
+
+            # update that index in the board to the sign
+            self.board[cellTupl[0]][cellTupl[1]] = sign 
+                              
       def isempty(self, cell):
             # you need to convert A1, B1, …, C3 cells into index values from 1 to 9
-            cellTupple = covertCell(cell)
+            cellTupple = self.convertCell(cell)
             # return True if the cell is empty (not marked with X or O)
-            print("")
-      def convertCell(self, cell):
-            
+            if(self.board[cellTupple[0]][cellTupple[1]] == " "):
+                  return True
+            return False
+
       def isdone(self):
             done = False
             # check all game terminating conditions, if one of them is present, assign the var done to True
@@ -77,5 +105,3 @@ class Board:
                   print('\n +---+---+---+')
 
 
-board = Board()
-board.show()
