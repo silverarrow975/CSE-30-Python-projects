@@ -1,4 +1,5 @@
-class MiniMax(?):
+from player import AI
+class MiniMax(AI):
     def choose(self, board):
         print(f"\n{self.?}, {self.?}: Enter a cell [A-C][1-3]: ")
         cell = MiniMax.minimax(self, board, True, True)

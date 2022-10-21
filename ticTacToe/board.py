@@ -22,7 +22,8 @@ class Board:
             self.winner = "" # reset the winner
       def get_size(self): 
              # optional, return the board size (an instance size)
-            return len(self.board)* len(self.board[0])
+             # return a tuple (rows, columns)
+            return (len(self.board), len(self.board[0]))
       def get_winner(self):
             # return the winner's sign O or X (an instance winner)     
             return self.winner
@@ -100,6 +101,17 @@ class Board:
                   elif(self.board[0][2] == self.board[1][1] == self.board[2][0] and self.board[0][2] != " "):
                         done = True
                         self.winner = self.board[0][0]
+            
+            # check if there is a tie
+            if(not done):
+                  for r in self.board:
+                        # if there is still any open spaces in the board the game is not done
+                        # immeditatly return false
+                        if(" " in r):
+                              return done
+                  # if there are no empty spaces left set done = true
+                  # don't change the winner's sign because there is no winner
+                  done = True 
 
             # depending on conditions assign the instance var winner to O or X
             return done

@@ -5,14 +5,16 @@
 # output: interactive text messages and a tic-tac-toe board
 
 from board import Board
-from player import Player
+from player import Player, AI
 
 # main program
 print("Welcome to TIC-TAC-TOE Game!")
 while True:
     board = Board()
-    player1 = Player("Bob", "X")
-    player2 = Player("Alice", "O")
+    # player1 = Player("Bob", "X")
+    player1 = AI("Bob", "X", board) # testing random AI
+    # player2 = Player("Alice", "O")
+    player2 = AI("Alice", "O", board)
     turn = True
     while True:
         board.show()
