@@ -62,3 +62,71 @@ class AI (Player):
                         c = "C"
 
             return c + str(col)
+
+import math
+class MiniMax(AI):
+    def choose(self, board):
+        print(f"\n{self.name}, {self.sign}: Enter a cell [A-C][1-3]: ")
+        cell = MiniMax.minimax(self, board, True, True)
+        print(cell)
+        board.set(cell, self.sign)
+
+    # self_player is a bool that lets you know whether it's minimax's turn
+    # start is a bool
+    def minimax(self, board, self_player, start):
+        # check the base conditions
+        if board.isdone():
+            # self is a winner
+            if board.get_winner() == self.get_sign():
+                return 1
+            # is a tie
+            elif board.get_winner() == " ":
+                return 0
+            # self is a looser (opponent is a winner)
+            else:
+                return -1
+        
+        # make a move (choose a cell) recursively
+        move = "" # choosing a move
+    
+        # set the min and max score to infinity
+        minScore = math.inf
+        maxScore = -math.inf
+
+        # figure out the player's sign
+        if(self.get_sign == "X"):
+            playerSign = "O"
+        else:
+            playerSign = "X"
+
+        # iterate through all avalible cells
+        # check if the cell is empty
+        for col in range(board.get_size()[0]):
+            for row in range(board.get_size()[1]):
+                cell = super().cellToStr(row+1, col+1) # convert the row and cell index to a cell str because that's what isempty accepts
+                # print(cell)
+                
+                if(board.isempty(cell)):
+                    if(self_player): # if it is the AI's turn mark with their sign
+                        board.set(cell, self.get_sign)
+                        score = self.minimax(board, False, False) # rescursive call
+                        board.set(cell, " ") # reset the cell
+                        # if the score is greater than the maxScore that is the best move
+                        if(score > maxScore):
+                            maxScore = score
+                            move = cell # best move
+                    else: # mark with the other player's sign
+                        board.set(cell, playerSign)
+                        score = self.minimax(board, True, False)
+                        board.set(cell, " ") # reset the cell
+                        if(score < minScore):
+                            minScore = score
+                            move = cell
+
+        if start:
+            return move # return to best move once you come back to the original call of the function
+        elif self_player: # if it's minimax's turn return the maxScore
+            return maxScore
+        else: # return the minScore if its the opponent's turn
+            return minScore
+

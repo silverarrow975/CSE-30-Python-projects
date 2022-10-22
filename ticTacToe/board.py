@@ -30,6 +30,8 @@ class Board:
 
       # change the cell str to an index for the board 2d arr
       def convertCell(self, cell):
+            # print(cell[0])
+
             alpha = cell[0].lower()
 
             # getting the column index
