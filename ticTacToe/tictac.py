@@ -11,10 +11,10 @@ from player import Player, AI, MiniMax
 print("Welcome to TIC-TAC-TOE Game!")
 while True:
     board = Board()
-    # player1 = Player("Bob", "X")
-    player1 = MiniMax("Bob", "X", board) # testing random AI
+    player1 = Player("Bob", "X")
+    # player1 = MiniMax("Bob", "X", board) # testing random AI
+    player2 = MiniMax("Alice", "O", board)
     # player2 = Player("Alice", "O")
-    player2 = AI("Alice", "O", board)
     turn = True
     while True:
         board.show()
@@ -29,6 +29,7 @@ while True:
     board.show()
     if board.get_winner() == player1.get_sign():
         print(f"{player1.get_name()} is a winner!")
+        print(board.get_winner())
     elif board.get_winner() == player2.get_sign():
         print(f"{player2.get_name()} is a winner!")
     else:

@@ -102,7 +102,7 @@ class Board:
                         self.winner = self.board[0][0]
                   elif(self.board[0][2] == self.board[1][1] == self.board[2][0] and self.board[0][2] != " "):
                         done = True
-                        self.winner = self.board[0][0]
+                        self.winner = self.board[0][2]
             
             # check if there is a tie
             if(not done):
