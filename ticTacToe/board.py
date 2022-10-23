@@ -28,6 +28,11 @@ class Board:
             # return the winner's sign O or X (an instance winner)     
             return self.winner
 
+      # resets the winner to be no one
+      # for the use of minimax
+      def reset_winner(self):
+            self.winner = " "
+
       # change the cell str to an index for the board 2d arr
       def convertCell(self, cell):
             # print(cell[0])

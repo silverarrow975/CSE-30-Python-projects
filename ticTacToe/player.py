@@ -86,18 +86,20 @@ class MiniMax(AI):
             if board.isdone():
                   # self is a winner
                   if board.get_winner() == self.get_sign():
+                        board.reset_winner()
                         return 1
                   # is a tie
                   elif board.get_winner() == " ":
+                        board.reset_winner()
                         return 0
                   # self is a looser (opponent is a winner)
                   else:
+                        board.reset_winner()
                         return -1
             
             # make a move (choose a cell) recursively
             move = "" # choosing a move
             
-            # does this line of code keep reseting the min and max scores?
             # set the min and max score to infinity
             minScore = math.inf 
             maxScore = -math.inf     
