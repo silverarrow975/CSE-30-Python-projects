@@ -3,9 +3,9 @@ import numpy as np
 
 class Codec():
     
-    def __init__(self):
-        self.name = 'binary'
-        self.delimiter = '#'
+    def __init__(self, delimiter="#", name="binary"):
+        self.name = name
+        self.delimiter = delimiter
 
     # convert text or numbers into binary form    
     def encode(self, text):
@@ -29,25 +29,48 @@ class Codec():
 
 class CaesarCypher(Codec):
 
-    def __init__(self, shift=3):
-        self.name = 'caesar'
-        self.delimiter = '#'  
+    def __init__(self, delimiter="#", shift=3):
+        super().__init__(name="caesar")  
         self.shift = shift    
         self.chars = 256      # total number of characters
 
     # convert text into binary form
-    # your code should be similar to the corresponding code used for Codec
     def encode(self, text):
         data = ''
-        # your code goes here
+        if type(text) == str:
+            # ord(i) + self.shift implements the Ceaser cipher on the message given to encode
+            # then convert the message to binary
+            # mod by self.chars in case after the shift the num is out of range
+            data = ''.join([format((ord(i) + self.shift) % self.chars, "08b") for i in text])
+        else:
+            print('Format error')
+            
         return data
     
     # convert binary data into text
     # your code should be similar to the corresponding code used for Codec
     def decode(self, data):
+        binary = []        
+        for i in range(0,len(data),8):
+            byte = data[i: i+8]
+            if byte == self.encode(self.delimiter):
+                break
+            binary.append(byte)
         text = ''
-        # your code goes here
+        for byte in binary:
+            # undo the Ceaser Shift
+            # and convert from ascii code to a character
+            # mod by self.chars in case after the shift the num is out of range
+            text += chr((int(byte,2) - self.shift) % self.chars) 
         return text
+
+    # return a binary array that undos the ceaser shift
+    def bin_shift(self, binArr):
+        for i in range(len(binArr)):
+            unS_num = int(binArr[i],2) - self.shift # get the unshifted number
+            binArr[i] = format(unS_num, '08b') # replace the arr
+            
+        return binArr
 
 # a helper class used for class HuffmanCodes that implements a Huffman tree
 class Node:
@@ -60,11 +83,10 @@ class Node:
         
 class HuffmanCodes(Codec):
     
-    def __init__(self):
+    def __init__(self, delimiter="#"):
+        super().__init__(name="huffman")
         self.nodes = None
         self.data = {}
-        self.name = 'huffman'
-        self.delimiter = '#'
 
     # make a Huffman Tree    
     def make_tree(self, data):
