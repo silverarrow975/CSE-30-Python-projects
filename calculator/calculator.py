@@ -31,12 +31,7 @@ def infix_to_postfix(infix):
         elif c == ")":
             postfix += num + " "
             num = ""
-            # if the opperator is not a type of parantheis then add it to postfix with a space
-            while not s.isEmpty():
-                opp = s.pop()
-                # if the opperator is not a type of parantheis then add it to postfix with a space
-                if opp != "(":
-                    postfix += opp + " "
+            postfix += emptyStack(s)
         # if the character is an operator
         elif c in operators:
             # add current nums to postfix
@@ -55,7 +50,7 @@ def infix_to_postfix(infix):
                 # empty the stack into postfix
                 # add the current operator to the stack
                 else:
-                    emptyStack(s, postfix)
+                    postfix += emptyStack(s)
                     s.push(c)
                 
         # if the character is a space
@@ -71,20 +66,19 @@ def infix_to_postfix(infix):
     # add any remaining number to postfic
     postfix += num + " "
     # empty the stack of operators into postfix
-    while(not s.isEmpty()):
-        opp = s.pop()
-        # if the opperator is not a type of parantheis then add it to postfix with a space
-        if opp != "(":
-            postfix += opp + " "
+    postfix += emptyStack(s)
             
     return postfix                   
     
-def emptyStack(stack, s):
+def emptyStack(stack):
+    s = ""
     while not stack.isEmpty():
         opp = stack.pop()
         # if the opperator is not a type of parantheis then add it to postfix with a space
         if opp != "(":
             s += opp + " "
+        
+    return s
 # get the precedence of the operator
 def get_precedence(operator):
     # list of valid operators
