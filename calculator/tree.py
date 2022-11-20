@@ -8,9 +8,11 @@
 from stack import Stack
 class BinaryTree:
     def __init__(self,rootObj=None):
-        self.key = rootObj
+        self.key = rootObj # root val
         self.leftChild = None
         self.rightChild = None
+    
+    # inserting a left child into the tree
     def insertLeft(self,newNode):
         if self.leftChild == None:
             self.leftChild = BinaryTree(newNode)
@@ -18,16 +20,32 @@ class BinaryTree:
             t = BinaryTree(newNode)
             t.leftChild = self.leftChild
             self.leftChild = t
+            
+    # insert a right child into the tree
     def insertRight(self,newNode):
-        pass
+        if self.rightChild == None:
+            self.rightChild = BinaryTree(newNode)
+        else:
+            t = BinaryTree(newNode)
+            t.rightChild = self.rightChild
+            self.rightChild = t
+            
+    # return the right child
     def getRightChild(self):
         return self.rightChild
+    
+    # return the left child
     def getLeftChild(self):
-        pass
+        return self.leftChild
+    
+    # set the root val
     def setRootVal(self,obj):
-        pass
+        self.key = obj
+    
+    # return the root val
     def getRootVal(self):
-        pass
+        return self.key
+    
     def __str__(self):
         s = f"{self.key}"
         s += '('
@@ -87,7 +105,7 @@ if __name__ == '__main__':
     assert r.getRightChild().getLeftChild().getRootVal() == 'f'
     
     # test an ExpTree
-    
+    '''
     postfix = '5 2 3 * +'.split()
     tree = ExpTree.make_tree(postfix)
     assert str(tree) == '(5+(2*3))'
@@ -102,3 +120,4 @@ if __name__ == '__main__':
     assert ExpTree.postorder(tree) == '52+3*'
     assert ExpTree.preorder(tree) == '*+523'
     assert ExpTree.evaluate(tree) == 21.0
+    '''
