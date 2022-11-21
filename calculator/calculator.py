@@ -13,6 +13,7 @@ from tree import ExpTree
 from stack import Stack # to help convert from infix to postfix
 
 # convert the infix expression entered by the user to postfix
+# is adding an extra space somewhere
 def infix_to_postfix(infix):
     postfix = ""
     operators = ["^", "*", "/", "+", "-"] # list of valid operators
@@ -59,9 +60,6 @@ def infix_to_postfix(infix):
             # reset num to an empty string
             num = ""
         
-        print("postfix:", postfix)
-            
-            # if a starting parenthesis is 
             
     # add any remaining number to postfic
     postfix += num + " "

@@ -57,22 +57,62 @@ class BinaryTree:
         s += ')'
         return s
 class ExpTree(BinaryTree):
+    # postfix is passed in as in array
     def make_tree(postfix):
-        pass
+        stack = Stack()
+        validOperators = ["^", "*", "/", "+", "-"]
+        
+        for c in postfix:
+            # if the chacacter is an operator
+            if c in validOperators:
+                # make a tree node
+                t = ExpTree(c)
+                # add left and right trees
+                t.rightChild = stack.pop()
+                t.leftChild = stack.pop()
+                # push the tree to a stack
+                stack.push(t)
+            # if the character is a number
+            else:
+                stack.push(ExpTree(c))
+        
+        return stack.pop()
     
+    @staticmethod
+    # works
     def preorder(tree):
         s = ''
-        pass
+        if tree != None:
+            s = tree.getRootVal()
+            s += ExpTree.preorder(tree.getLeftChild())
+            s += ExpTree.preorder(tree.getRightChild())
+            
         return s
+    
+    @staticmethod
+    # works
     def inorder(tree):
         s = ''
-        pass
+        if tree != None:
+            if tree.getLeftChild() != None:
+                s += "("
+            s += ExpTree.inorder(tree.getLeftChild())
+            s += tree.getRootVal()
+            if tree.getRightChild() != None:
+                s += ExpTree.inorder(tree.getRightChild())
+                s += ")"
         return s
       
+    @staticmethod
+    # works
     def postorder(tree):
         s = ''
-        pass
+        if tree != None:
+            s += ExpTree.postorder(tree.getLeftChild())
+            s += ExpTree.postorder(tree.getRightChild())
+            s +=  tree.getRootVal()
         return s
+    
     def evaluate(tree):
         pass
             
@@ -81,6 +121,22 @@ class ExpTree(BinaryTree):
    
 # a driver for testing BinaryTree and ExpTree
 if __name__ == '__main__':
+    postfix = '5 2 3 * +'.split()
+    tree = ExpTree.make_tree(postfix)
+    assert ExpTree.preorder(tree) == '+5*23'
+    print(ExpTree.inorder(tree))
+    # assert str(tree) == '(5+(2*3))'
+    '''
+    assert ExpTree.inorder(tree) == '(5+(2*3))'
+    assert ExpTree.postorder(tree) == '523*+'
+    # assert ExpTree.evaluate(tree) == 11.0
+    postfix = '5 2 + 3 *'.split()
+    tree = ExpTree.make_tree(postfix)
+    assert str(tree) == '((5+2)*3)'
+    assert ExpTree.inorder(tree) == '((5+2)*3)'
+    assert ExpTree.postorder(tree) == '52+3*'
+    assert ExpTree.preorder(tree) == '*+523'
+    # assert ExpTree.evaluate(tree) == 21.0
     # test a BinaryTree
     
     r = BinaryTree('a')
@@ -102,22 +158,8 @@ if __name__ == '__main__':
     r.getRightChild().insertLeft('f')
     assert str(r) == 'a(b(d()())(e()()))(c(f()())())'
     assert str(r.getRightChild()) == 'c(f()())()'
-    assert r.getRightChild().getLeftChild().getRootVal() == 'f'
-    
+    assert r.getRightChild().getLeftChild().getRootVal() == 'f' 
+    '''
     # test an ExpTree
-    '''
-    postfix = '5 2 3 * +'.split()
-    tree = ExpTree.make_tree(postfix)
-    assert str(tree) == '(5+(2*3))'
-    assert ExpTree.inorder(tree) == '(5+(2*3))'
-    assert ExpTree.postorder(tree) == '523*+'
-    assert ExpTree.preorder(tree) == '+5*23'
-    assert ExpTree.evaluate(tree) == 11.0
-    postfix = '5 2 + 3 *'.split()
-    tree = ExpTree.make_tree(postfix)
-    assert str(tree) == '((5+2)*3)'
-    assert ExpTree.inorder(tree) == '((5+2)*3)'
-    assert ExpTree.postorder(tree) == '52+3*'
-    assert ExpTree.preorder(tree) == '*+523'
-    assert ExpTree.evaluate(tree) == 21.0
-    '''
+
+
