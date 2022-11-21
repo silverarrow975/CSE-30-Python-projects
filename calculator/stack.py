@@ -1,6 +1,6 @@
 # assignment: PA4 - Calculator
 # author: Harshita Bhardwaj
-# date: 11/18/22
+# date: 11/20/22
 # file: stack.py is a file that writes the implementation for the Stack ADT. It's intended purpose is to be imported as a module 
     # in another file to utilize the Stack ADT
     # it can also be used to test the implementation in this file

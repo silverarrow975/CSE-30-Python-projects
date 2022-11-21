@@ -1,6 +1,6 @@
 # assignment: PA 4 - Calculator
 # author: Harshita Bhardwaj
-# date: 11/18/22
+# date: 11/20/22
 # file: calculator.py is a file that implements a stack and tree in order to calculate the output of 
     # an arithmetic expression entered by the user
     # the file converts the infix expression entered by the user into a postfix expression in order to calculate the result
@@ -35,17 +35,19 @@ def infix_to_postfix(infix):
             postfix += emptyStack(s)
         # if the character is an operator
         elif c in operators:
-            # add current nums to postfix
-            postfix += num + " "
-            # reset num to an empty string
-            num = ""
+            # is there is a number stored
+            if len(num) > 0:
+                # add current nums to postfix
+                postfix += num + " "
+                # reset num to an empty string
+                num = ""
             # if the stack is empty just push the current opperator to the stack
             if s.isEmpty():
                 s.push(c)
             else:
                 prec = get_precedence(c) # get the precedence of the operator
                 # add the operator to the stack if it has higher precedence than the previous operator in the stack
-                if get_precedence(s.peek()) < prec:
+                if prec > get_precedence(s.peek()):
                     s.push(c)
                 # if the precedence of the current operator is less than or equal to the operator at the top of the stack 
                 # empty the stack into postfix
@@ -59,7 +61,6 @@ def infix_to_postfix(infix):
             postfix += num + " "
             # reset num to an empty string
             num = ""
-        
             
     # add any remaining number to postfic
     postfix += num + " "
@@ -80,27 +81,30 @@ def emptyStack(stack):
 # get the precedence of the operator
 def get_precedence(operator):
     # list of valid operators
-    # validOperators = ["(", ")", "^", "*", "/", "+", "-"]
-    match operator:
-        case "^":
+    validOperators = ["^", "*", "/", "+", "-"]
+    if operator in validOperators:
+        if operator == "^":
             prec = 3
-        case "*", "/":
+        elif operator == "*" or operator == "/":
             prec = 2
-        case "+", "-":
+        elif operator == "+" or operator == "-":
             prec = 1
-        case _:
-            prec = 0
         
-    return prec
+        return prec
 
-    # return 0 # default return
+    return 0 # default return
 
 def calculate(infix):
-    pass
+    postfix = infix_to_postfix(infix) # convert the infix to postfix
+    tree = ExpTree.make_tree(postfix.split()) # make an expression tree
+    return ExpTree.evaluate(tree) # return the result of the tree
 
 # a driver to test calculate module
 if __name__ == '__main__':
     print(infix_to_postfix("(42+5)*3+7"))
+    print(infix_to_postfix('(5+2)*3'))
+    print(infix_to_postfix('5+2*3'))
+    
     '''
     print("Welcome to Calculator Program!")
     eq = input("Please enter your expression here. To quit enter 'quit' or 'q':")
