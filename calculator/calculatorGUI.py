@@ -1,5 +1,16 @@
+# assignment: PA 4 - Calculator
+# author: Harshita Bhardwaj
+# date: 11/20/22
+# file: calculatorGUI.py displays a visual calculator and allows the user to calculate answers to simple arithmetic expressions
+# input: this file takes in vals entered by the user
+    # these vals include numbers and operators for the expression
+    # the user can also click the clear button on the calculator
+# output: once the equal button is pressed the calculator will display the result of the expression
+    # if the clear button is pressed the entire equation will be cleared
+
 # create a GUI calculator using tkinter
 from tkinter import *
+from calculator import calculate
 
 def calculator(gui):   
     # name the gui window
@@ -41,8 +52,23 @@ def addButton(gui, entrybox, value):
     return Button(gui, text=value, height=4, width=9, command = lambda: clickButton(entrybox, value))
 
 def clickButton(entrybox, value):
-    # the function clickButton() is not implemented!!!
-    print(value) # for debugging
+    # if c is clicked clear the entry box
+    if value == "c":
+        entrybox.delete(0, END) # delete everything from the start to the end
+    # if anything but equal is clicked add it to the entry box
+    elif value != "=":
+        entrybox.insert(END, value) # insert a val to the end of the str in the entry box
+        
+    # if the equal button is clicked 
+    # delete the current text from the entry box
+    # calculate the result of the expression
+    # display the result
+    else:
+        exp = entrybox.get() # get the expression from the entry box
+        entrybox.delete(0, END) # delete everything from the start to the end
+        ans = calculate(exp)
+        entrybox.insert(END, ans) # display the answer
+        
     
 # main program
 # create the main window
