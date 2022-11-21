@@ -67,7 +67,7 @@ def infix_to_postfix(infix):
     # empty the stack of operators into postfix
     postfix += emptyStack(s)
             
-    return postfix                   
+    return postfix.strip()                   
     
 def emptyStack(stack):
     s = ""
@@ -101,20 +101,21 @@ def calculate(infix):
 
 # a driver to test calculate module
 if __name__ == '__main__':
-    print(infix_to_postfix("(42+5)*3+7"))
-    print(infix_to_postfix('(5+2)*3'))
-    print(infix_to_postfix('5+2*3'))
+    # print(infix_to_postfix("(42+5)*3+7"))
+    # print(infix_to_postfix('(5+2)*3') == '5 2 + 3 *')
+    # print(infix_to_postfix('5+2*3'))
     
-    '''
+    
     print("Welcome to Calculator Program!")
     eq = input("Please enter your expression here. To quit enter 'quit' or 'q':")
     
     # while the user doesn't ask to quit keep running the loop
-    while(eq != "quit" or eq != "q"):
+    while(eq != "quit" and eq != "q"):
         # print the calculation
         print(calculate(eq))
         # ask for the infix operation
         eq = input("Please enter your expression here. To quit enter 'quit' or 'q':")
+        print(eq)
         
     print("Goodbye!")
     
@@ -125,4 +126,4 @@ if __name__ == '__main__':
     # test calculate function
     assert calculate('(5+2)*3') == 21.0
     assert calculate('5+2*3') == 11.0
-    '''
+    
