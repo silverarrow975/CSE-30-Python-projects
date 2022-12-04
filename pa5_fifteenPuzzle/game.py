@@ -1,19 +1,32 @@
+''' DO NOT FORGET TO ADD COMMENTS '''
 from tkinter import *
 import tkinter.font as font
-
-def change_text(event):
-    global message
-    if message.get()=='You clicked me!':
-        message.set('Click me again!')
-    else:
-        message.set('You clicked me!')
+#from fifteen import Fifteen
+          
+def clickButton():
+    pass
     
-# make a GUI window
-gui = Tk()
-message = StringVar()
-message.set('Click me')
-f = font.Font(family='Helveca', size='12', weight='bold')
-button = Button(textvariable=message, font=f, width=30, height=15, bg='bisque', fg='black')
-button.bind('<Button-1>', change_text)
-button.pack()
-mainloop()
+if __name__ == '__main__':    
+    # make tiles
+    #tiles = Fifteen()
+    # make a window
+    gui = Tk()
+    gui.title("Fifteen")
+    # make font
+    font = font.Font(family='Helveca', size='25', weight='bold')
+    # make buttons
+    text1 = StringVar()
+    text1.set('1')
+    name1 = 1
+    button1 = Button(gui, textvariable=text1, name=str(name1),
+                      bg='white', fg='black', font=font, height=2, width=5,
+                      command = lambda : clickButton())
+    button1.configure(bg='coral')
+    
+    # the key argument name is used to identify the button
+    gui.nametowidget(name1).configure(bg='white')
+    # add buttons to the window
+    # use .grid() or .pack() methods
+    button1.pack()
+    # update the window
+    gui.mainloop()

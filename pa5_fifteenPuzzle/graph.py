@@ -1,7 +1,7 @@
 # assignment: PA 5 - 15 Puzzle
 # author: Harshita Bhardwaj
-# date: 11/30/22
-# file: This file sets up the graph ADT to be used in fifteen.py
+# date: 12/3/22
+# file: This file sets up the graph ADT to be used in fifteen.py. Note the code for the Graph class is from previous labs in this class
 # input: this file does not take any input alone, but can set up a graph ADT to be used in conjuction with other files
 # output: there is no output to this file alone
 
@@ -34,29 +34,101 @@ class Graph:
         self.numVertices = 0
 
     def addVertex(self,key):
-        pass
+        self.numVertices += 1
+        newVertex = Vertex(key)
+        self.vertList[key] = newVertex
+        return newVertex
 
     def getVertex(self,n):
-        pass
+        if n in self.vertList:
+            return self.vertList[n]
+        else:
+            return None
 
     def __contains__(self,n):
-        return n in self.vertList
+        return n in self.vertList.values()
 
     def addEdge(self,f,t,weight=0):
-        pass
+        if f not in self.vertList:
+            nv = self.addVertex(f)
+        if t not in self.vertList:
+            nv = self.addVertex
+            
+        self.vertList[f].addNeighbor(self.vertList[t], weight)
 
     def getVertices(self):
-
         return self.vertList.keys()
 
     def __iter__(self):
         return iter(self.vertList.values())
 
     def breadth_first_search(self, s):
-        pass
+        for v in self.vertList.values():
+            v.color = "white"
+        queue = []
+        path = [] # not a part of BFS, used to check the order of vertices traversed by BFS
+        start = self.vertList[s]
+        start.color = 'gray'
+        queue.append(start)
+        path.append(start.id)
+        while len(queue) != 0:
+            v = queue.pop(0)
+            for u in v.connectedTo.keys():
+                if u.color == 'white':
+                    u.color = 'gray'
+                    queue.append(u)
+                    path.append(u.id)
+            v.color = 'black'
+        
+        return path # not a part of BFS
 
     def depth_first_search(self):
-        pass
+        for v in self.vertList.values():
+            v.color = "white"
+            
+        path = [] # not a part of DFS, used to check the order of vertices traversed by DFS
+        for v in self.vertList.values():
+            if v.color == 'white':
+                self.DFS(v.id, path)
+        return path
 
     def DFS(self, vid, path):
-        pass
+        v = self.vertList[vid]
+        v.color = 'gray'
+        path.append(v.id)
+        for u in v.connectedTo.keys():
+            if u.color == 'white':
+                self.DFS(u.id, path)
+        v.color = 'black'
+        return path
+
+if __name__ == '__main__':
+    g = Graph()
+    for i in range(6):
+        g.addVertex(i)
+        
+    g.addEdge(0,1)
+    g.addEdge(0,5)
+    g.addEdge(1,2)
+    g.addEdge(2,3)
+    g.addEdge(3,4)
+    g.addEdge(3,5)
+    g.addEdge(4,0)
+    g.addEdge(5,4)
+    g.addEdge(5,2)
+    for v in g:
+        print(v)
+    assert (g.getVertex(0) in g) == True
+    assert (g.getVertex(6) in g) == False
+        
+    print(g.getVertex(0))
+    assert str(g.getVertex(0)) == '0 connectedTo: [1, 5]'
+    print(g.getVertex(5))
+    assert str(g.getVertex(5)) == '5 connectedTo: [4, 2]'
+    path = g.breadth_first_search(0)
+    print('BFS traversal by discovery time (preordering): ', path)
+    assert path == [0, 1, 5, 2, 4, 3]
+    
+    path = g.depth_first_search()
+    print('DFS traversal by discovery time (preordering): ', path)
+    assert path == [0, 1, 2, 3, 4, 5]
