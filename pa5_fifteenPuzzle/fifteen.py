@@ -1,3 +1,10 @@
+# assignment: PA 5 - 15 Puzzle
+# author: Harshita Bhardwaj
+# date: 12/4/22
+# file: 
+# input: 
+# output: 
+
 import numpy as np
 from graph import Graph
 from random import choice
@@ -64,7 +71,6 @@ class Fifteen:
                     s += f" {c} "
             s += '\n'
             
-        s = s.strip("\n") # remove the extra line break
         return s
 
     # exchange i-tile with j-tile  
@@ -164,9 +170,13 @@ class Fifteen:
     
     # verify if the puzzle is solved
     def is_solved(self):
-        flipped = np.flip(self.board)
-        normal = self.tiles.reshape(4, 4)
-        if self.board == normal or self.board == flipped:
+        baseCheck = np.array([i for i in range(1,self.size**2)] + [0])
+        normal = baseCheck.reshape(4, 4)
+        zeroAtSt = np.array([i for i in range(0,self.size**2)]).reshape(4, 4)
+        zeroAtEd = np.flip(zeroAtSt)
+        flipped = np.flip(normal)
+        
+        if (self.board == normal).all() or (self.board == flipped).all() or (zeroAtSt == self.board).all() or (zeroAtEd == self.board).all():
             return True
 
         return False
@@ -181,8 +191,7 @@ class Fifteen:
     
 if __name__ == '__main__':
     game = Fifteen()
-    game.is_solved()
-    '''assert str(game) == ' 1  2  3  4 \n 5  6  7  8 \n 9 10 11 12 \n13 14 15    \n'
+    assert str(game) == ' 1  2  3  4 \n 5  6  7  8 \n 9 10 11 12 \n13 14 15    \n'
     assert game.is_valid_move(15) == True
     assert game.is_valid_move(12) == True
     assert game.is_valid_move(14) == False
@@ -194,11 +203,11 @@ if __name__ == '__main__':
     assert game.is_solved() == True
     game.shuffle()
     assert str(game) != ' 1  2  3  4 \n 5  6  7  8 \n 9 10 11 12 \n13 14 15    \n'
-    assert game.is_solved() == False'''
+    assert game.is_solved() == False
     
     
     '''You should be able to play the game if you uncomment the code below'''
-    '''
+    
     game = Fifteen()
     game.shuffle()
     game.draw()
@@ -213,6 +222,6 @@ if __name__ == '__main__':
         if game.is_solved():
             break
     print('Game over!')
-    '''
+    
     
     
